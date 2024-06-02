@@ -2,12 +2,12 @@ import * as requestFromServer from "./authCrud";
 import {  authSlice } from "./authSlice";
 const { actions } = authSlice;
 
-export const getCurrentUser = values => dispatch => {
+export const CreateToken = values => dispatch => {
     return requestFromServer
-        .getCurrentUser(values)
+        .CreateToken(values)
         .then(response => {
-            const currentUser = response.data.data;
-            dispatch(actions.currentUserFetched({ currentUser }));
+            const accessToken = response.data.data.accessToken;
+            dispatch(actions.fetchToken({ accessToken }));
         })
         .catch(error => {
             throw error;

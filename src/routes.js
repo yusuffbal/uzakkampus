@@ -1,35 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 import BasePage from "./BasePage";
 import LoginPage from "./app/pages/LoginPage";
+import Layout from "./app/layout/Layout";
 
 export function AppRoutes() {
-  const [isAuthorized, setIsAuthorized] = useState(false);
-  const [accessToken] = useState(localStorage.getItem("accessToken"));
 
-  useEffect(() => {
-    if (accessToken != null) {
-      setIsAuthorized(true);
-    } else {
-      setIsAuthorized(false);
-    }
-  }, [accessToken]);
+
+  const isAuthorized = localStorage.getItem("accessToken") != null
 
   return (
-    <Router>
-      <Switch>
-        <Route path="/auth/login" component={LoginPage} />
-        {!isAuthorized ? (
-          <Route path="*" render={() => <LoginPage />} />
+    <Switch>
+      <Route path="/auth/login" component={LoginPage} />
+      <Route path="/">
+        {isAuthorized ? (
+          <Layout>
+            <BasePage />
+          </Layout>
         ) : (
-          <Redirect from="/auth" to="/" />
-        )}
-        {!isAuthorized ? (
           <Redirect to="/auth/login" />
-        ) : (
-          <Route path="/" component={BasePage} />
         )}
-      </Switch>
-    </Router>
+      </Route>
+    </Switch>
   );
 }

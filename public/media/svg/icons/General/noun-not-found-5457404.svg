@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 40" x="0px" y="0px">
+  <style>
+    .st0 {
+      fill: #ced4da; /* muted-light rengi */
+    }
+  </style>
+  <g data-name="Layer 10">
+    <path class="st0" d="M7,8A1,1,0,1,0,8,9,1,1,0,0,0,7,8Z"/>
+    <path class="st0" d="M12,9a1,1,0,0,0-1-1h0a1,1,0,1,0,1,1Z"/>
+    <path class="st0" d="M29,4H3A1,1,0,0,0,2,5V27a1,1,0,0,0,1,1h8a1,1,0,0,0,0-2H4V6H28V8H15a1,1,0,0,0,0,2H28V26a1,1,0,0,0,0,2h1a1,1,0,0,0,1-1V5A1,1,0,0,0,29,4Z"/>
+    <path class="st0" d="M21.6,23.18a7,7,0,1,0-1.42,1.42l3.11,3.11a1,1,0,0,0,1.42-1.42ZM16,24a5,5,0,1,1,5-5A5,5,0,0,1,16,24Z"/>
+    <path class="st0" d="M18.21,16.79a1,1,0,0,0-1.42,0l-.79.8-.79-.8a1,1,0,0,0-1.42,1.42l.8.79-.8.79a1,1,0,0,0,1.42,1.42l.79-.8.79.8a1,1,0,0,0,1.42-1.42l-.8-.79.8-.79A1,1,0,0,0,18.21,16.79Z"/>
+  </g>
+  <text x="0" y="47" fill="#ced4da" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">Created by Ahmad Roaayala</text>
+  <text x="0" y="52" fill="#ced4da" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">from the Noun Project</text>
+</svg>
