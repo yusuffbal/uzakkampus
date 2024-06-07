@@ -8,20 +8,20 @@ import Layout from "./app/layout/Layout";
 export function AppRoutes() {
 
 
-  const isAuthorized = localStorage.getItem("accessToken") != null
+  const isAuthorized = useSelector((state) => state.auth.isAuth);
 
   return (
     <Switch>
-      <Route path="/auth/login" component={LoginPage} />
-      <Route path="/">
-        {isAuthorized ? (
-          <Layout>
-            <BasePage />
-          </Layout>
-        ) : (
-          <Redirect to="/auth/login" />
-        )}
-      </Route>
-    </Switch>
+    <Route path="/auth/login" component={LoginPage} />
+    <Route path="/">
+      {isAuthorized ? (
+        <Layout>
+          <BasePage />
+        </Layout>
+      ) : (
+        <Redirect to="/auth/login" />
+      )}
+    </Route>
+  </Switch>
   );
 }

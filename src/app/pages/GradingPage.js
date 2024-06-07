@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import Gradingtable from '../components/gradingpage/gradingtable';
+import { Tab, Tabs, Container, Row, Col } from 'react-bootstrap';
+import GradingTable from '../components/gradingpage/GradingTable';
+import CourseStats from '../components/gradingpage/CourseStats';
 
 const GradingPage = () => {
   const [notes, setNotes] = useState([
@@ -8,12 +10,22 @@ const GradingPage = () => {
     { id: 3, course: 'History', midterm: 75, final: 80, makeup: 78, grade: 79 },
   ]);
 
-  
   return (
-    <div>
-      <Gradingtable data={notes} />
-    </div>
+    <Container className="mt-5">
+      <Row>
+        <Col lg={6} xl={12}>
+          <Tabs defaultActiveKey="gradingTable" transition={false} id="grading-tabs" className="mb-3">
+            <Tab eventKey="gradingTable" title="Grading Table">
+              <GradingTable notes={notes} />
+            </Tab>
+            <Tab eventKey="courseStats" title="Course Stats">
+              <CourseStats notes={notes} />
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};
 
 export default GradingPage;

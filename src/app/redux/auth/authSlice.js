@@ -1,3 +1,4 @@
+// src/features/auth/authSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -6,10 +7,7 @@ const initialState = {
   currentUser: null,
 };
 
-
-
 export const authSlice = createSlice({
-
   name: 'auth',
   initialState,
   reducers: {
@@ -22,7 +20,6 @@ export const authSlice = createSlice({
       localStorage.setItem('accessToken', token);
       state.accessToken = token;
       state.isAuth = true;
-      
     },
     logout(state) {
       console.log("Removing token from localStorage"); // Log logout

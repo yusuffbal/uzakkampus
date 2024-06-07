@@ -1,44 +1,31 @@
-import BootstrapTable from 'react-bootstrap-table-next';
- 
-const columns = [
-    {
-      dataField: 'id',
-      text: 'ID',
-      sort: true
-    },
-    {
-      dataField: 'course',
-      text: 'Course',
-      sort: true
-    },
-    {
-      dataField: 'midterm',
-      text: 'Midterm',
-      sort: true
-    },
-    {
-      dataField: 'final',
-      text: 'Final',
-      sort: true
-    },
-    {
-      dataField: 'makeup',
-      text: 'Makeup',
-      sort: true
-    },
-    {
-      dataField: 'grade',
-      text: 'Grade',
-      sort: true
-    }
-  ];
- 
-  const gradingtable = ({ data }) => {
-    return (
-      <div className="container mt-5">
-        <BootstrapTable keyField='id' data={data} columns={columns} />
-      </div>
-    );
-  };
-  
-  export default gradingtable;
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const GradingTable = ({ notes }) => {
+  return (
+    <table className="table table-bordered table-hover">
+      <thead className="thead-dark">
+        <tr>
+          <th>Course</th>
+          <th>Midterm</th>
+          <th>Final</th>
+          <th>Makeup</th>
+          <th>Grade</th>
+        </tr>
+      </thead>
+      <tbody>
+        {notes.map(note => (
+          <tr key={note.id}>
+            <td>{note.course}</td>
+            <td>{note.midterm}</td>
+            <td>{note.final}</td>
+            <td>{note.makeup}</td>
+            <td>{note.grade}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+export default GradingTable;

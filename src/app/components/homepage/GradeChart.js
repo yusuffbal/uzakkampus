@@ -23,4 +23,4 @@ const GradeChart = ({ studentData, classAverage }) => {
   return <canvas ref={chartRef} />;
 };
 
-export default GradeChart
+export default GradeChart;

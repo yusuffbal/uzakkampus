@@ -1,15 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import SummaryCard from '../components/homepage/SummaryCard';
 import FeaturedCourses from '../components/homepage/FeaturedCourses';
 import CourseProgressTable from '../components/homepage/CourseProgressTable';
+import { getCurrentUser } from '../redux/auth/authActions';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 const HomePage = () => {
+  const dispatch = useDispatch();
+
   // Örnek veriler
   const courseCount = 8; // Toplam ders sayısı
   const upcomingExamsCount = 3; // Yaklaşan sınav sayısı
   const upcomingAssignmentsCount = 2; // Yaklaşan ödev sayısı
   const upcomingQuizzesCount = 1; // Yaklaşan quiz sayısı
+
+  const email = localStorage.getItem("email");
+  const password = localStorage.getItem("password");
+  
+  const values = { email, password };
+
+
+  useEffect(() => {
+    console.log("bilgi ",values);
+    dispatch(getCurrentUser(values));
+  }, []);
+
+  const { currentUser } = useSelector(
+    state => ({
+      currentUser: state.auth.currentUser,
+    }),
+    shallowEqual
+  );
+
+
+  useEffect(() => {
+    console.log("currentUser ",currentUser);
+  }, [currentUser]);
+
 
   // Öne çıkan dersler için örnek veri
   const featuredCourses = [
@@ -28,11 +56,6 @@ const HomePage = () => {
     // Diğer kurslar...
   ];
 
-  const studentData = [
-    { name: 'Öğrenci 1', grade: 85, participation: 90 },
-    { name: 'Öğrenci 2', grade: 70, participation: 95 },
-    // Diğer öğrenciler...
-  ];
 
   const courseProgressData = [
     { name: 'Ders Adı 1', instructor: 'Eğitmen 1', progress: 70, midtermGrade: 85, finalGrade: 90 },
@@ -43,8 +66,7 @@ const HomePage = () => {
   ];
   
 
-  const classAverage =
-    studentData.reduce((total, student) => total + student.grade, 0) / studentData.length;
+
 
   return (
     <Container className="mt-4 h-100">

@@ -6,6 +6,8 @@ import GradingPage from './app/pages/GradingPage';
 import ExamPage from './app/pages/ExamPage';
 import ProfilePage from './app/pages/ProfilePage';
 import LessonPage from './app/pages/LessonPage';
+import LessonActionsPage from './app/pages/LessonActionsPage';
+import ForumsPage from './app/pages/ForumsPage';
 
 const BasePage = () => {
   return (
@@ -16,7 +18,10 @@ const BasePage = () => {
         <Route exact path="/grading-system" component={GradingPage} />
         <Route exact path="/examination-system" component={ExamPage} />
         <Route exact path="/profile" component={ProfilePage} />
-        <Route exact path="/my-lessons" component={LessonPage} />
+        <Route exact path="/courses" component={LessonPage} />
+        <Route path="/courses/:courseId/actions" component={LessonActionsPage} />
+        <Route path="/forums" component={ForumsPage} />
+
         <Redirect to="/homepage" /> 
       </Switch>
     </Suspense>

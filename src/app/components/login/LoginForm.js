@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { Container, Row, Col, Button, Alert, Image } from 'react-bootstrap';
+import { Container, Row, Col, Button, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
 import * as actions from "../../redux/auth/authActions"
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 const LoginSchema = Yup.object().shape({
@@ -21,41 +20,22 @@ const LoginForm = () => {
     const history = useHistory();
 
 
-
-    const { isAuthorized } = useSelector((state) => ({
-        isAuthorized: state.auth.isAuth,
-      }));
-
-
-
-
-  
-    
-  
-
-
-
     const handleLogin = async (values) => {
         try {
-            CreateToken(values);
-            debugger;
-            history.push('/'); 
+            await CreateToken(values);
+            history.push('/');
         } catch (error) {
             setLoginError("E-Posta veya Şifreniz yanlış. Lütfen tekrar deneyiniz.");
         }
         console.log("values: ", values);
     };
-    
 
 
-
-    
 
     const CreateToken = (values) => {
         dispatch(actions.CreateToken(values));
     }
 
-    
 
     return (
         <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
