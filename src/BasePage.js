@@ -19,7 +19,7 @@ const BasePage = () => {
         <Route exact path="/examination-system" component={ExamPage} />
         <Route exact path="/profile" component={ProfilePage} />
         <Route exact path="/courses" component={LessonPage} />
-        <Route path="/courses/:courseId/actions" component={LessonActionsPage} />
+        <Route path="/courses/:courseId/" component={LessonActionsPage} />
         <Route path="/forums" component={ForumsPage} />
 
         <Redirect to="/homepage" /> 

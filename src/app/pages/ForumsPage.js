@@ -67,7 +67,7 @@ const ForumsPage = () => {
 
     
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 bg-white">
       <h2>Forums</h2>
       <div className="row">
         {forums.map(forum => (

@@ -1,19 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import SummaryCard from '../components/homepage/SummaryCard';
 import FeaturedCourses from '../components/homepage/FeaturedCourses';
 import CourseProgressTable from '../components/homepage/CourseProgressTable';
 import { getCurrentUser } from '../redux/auth/authActions';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as dashboardActions from "../redux/dashboard/dashboardActions";
 
 const HomePage = () => {
   const dispatch = useDispatch();
 
   // Örnek veriler
-  const courseCount = 8; // Toplam ders sayısı
-  const upcomingExamsCount = 3; // Yaklaşan sınav sayısı
-  const upcomingAssignmentsCount = 2; // Yaklaşan ödev sayısı
-  const upcomingQuizzesCount = 1; // Yaklaşan quiz sayısı
+  const [isLoading, setIsLoading] = useState(false);
 
   const email = localStorage.getItem("email");
   const password = localStorage.getItem("password");
@@ -22,49 +20,44 @@ const HomePage = () => {
 
 
   useEffect(() => {
-    console.log("bilgi ",values);
     dispatch(getCurrentUser(values));
+    
   }, []);
 
-  const { currentUser } = useSelector(
+  const { currentUser, dashboardAnaliyses,courseProgressData } = useSelector(
     state => ({
       currentUser: state.auth.currentUser,
+      dashboardAnaliyses: state.dashboard.entities,
+      courseProgressData: state.dashboard.progresstable
     }),
     shallowEqual
   );
 
-
   useEffect(() => {
-    console.log("currentUser ",currentUser);
-  }, [currentUser]);
+    if (currentUser && currentUser.id) {
+      dispatch(dashboardActions.DashboardAnaliysesFetch(currentUser.id));
+      dispatch(dashboardActions.DashboardProgressTableFetch(currentUser.id));
+    }
+    console.log("dashboardanaliyses: ",dashboardAnaliyses);
+  }, [ currentUser]);
+
+
+
+
+
+  const courseCount = dashboardAnaliyses?.coursesCount || 0;
+  const upcomingExamsCount = dashboardAnaliyses?.examsQount || 0;
+  const upcomingAssignmentsCount = dashboardAnaliyses?.assigmentsCount || 0;
+  const upcomingQuizzesCount = dashboardAnaliyses?.quizCount || 0;
+  const courses = dashboardAnaliyses?.courses || [];
+
 
 
   // Öne çıkan dersler için örnek veri
-  const featuredCourses = [
-    {
-      id: 1,
-      title: "Web Geliştirme Kursu",
-      description: "Modern web teknolojileriyle tanışın.",
-      link: "/courses/1"
-    },
-    {
-      id: 2,
-      title: "Mobil Uygulama Geliştirme",
-      description: "iOS ve Android için uygulama geliştirme.",
-      link: "/courses/2"
-    },
-    // Diğer kurslar...
-  ];
+ 
 
 
-  const courseProgressData = [
-    { name: 'Ders Adı 1', instructor: 'Eğitmen 1', progress: 70, midtermGrade: 85, finalGrade: 90 },
-    { name: 'Ders Adı 2', instructor: 'Eğitmen 2', progress: 50, midtermGrade: 75, finalGrade: 80 },
-    { name: 'Ders Adı 3', instructor: 'Eğitmen 3', progress: 80, midtermGrade: 90, finalGrade: 95 },
-    { name: 'Ders Adı 4', instructor: 'Eğitmen 4', progress: 60, midtermGrade: 80, finalGrade: 85 },
-    // Diğer dersler...
-  ];
-  
+
 
 
 
@@ -90,15 +83,11 @@ const HomePage = () => {
           </Row>
         </Col>
         <Col lg={7} xl={7} className="d-flex flex-column">
-          <FeaturedCourses courses={featuredCourses} />
+          <FeaturedCourses courses={courses} />
         </Col>
       </Row>
       <CourseProgressTable data={courseProgressData} />
 
-
-
-
-      {/* Diğer içerikler buraya eklenebilir */ }
     </Container >
   );
 };

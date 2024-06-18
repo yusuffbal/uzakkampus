@@ -3,7 +3,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from '../redux/auth/authSlice';
-import statusReducer from '../redux/status/statusSlice';
+import { statusSlice } from './status/statusSlice';
+import { dashboardSlice } from './dashboard/dashboardSlice';
 
 const persistConfig = {
   key: 'root',
@@ -14,9 +15,16 @@ const persistedReducer = persistReducer(persistConfig, authReducer);
 
 const store = configureStore({
   reducer: {
-    status: statusReducer,
+    status: statusSlice.reducer,
     auth: persistedReducer,
+    dashboard: dashboardSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST'],
+      },
+    }),
 });
 
 export const persistor = persistStore(store);

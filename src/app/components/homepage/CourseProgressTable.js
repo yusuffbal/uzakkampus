@@ -34,16 +34,16 @@ const CourseProgressTable = ({ data }) => {
             <tbody>
               {data.map((course, index) => (
                 <tr key={index}>
-                  <td className="pl-0">{course.name}</td>
-                  <td>{course.instructor}</td>
+                  <td className="pl-0">{course.courseName}</td>
+                  <td>{course.teacher}</td>
                   <td>
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="progress progress-xs w-100 mr-2">
                         <div
-                          className={`progress-bar ${getProgressBarColor(course.progress)}`} 
+                          className={`progress-bar ${getProgressBarColor(course.courseParticipant)}`} 
                           role="progressbar"
-                          style={{ width: `${course.progress}%` }}
-                          aria-valuenow={course.progress}
+                          style={{ width: `${course.courseParticipant}%` }}
+                          aria-valuenow={course.courseParticipant}
                           aria-valuemin="0"
                           aria-valuemax="100"
                         ></div>
@@ -51,10 +51,10 @@ const CourseProgressTable = ({ data }) => {
                     </div>
                   </td>
                   <td>
-                    <span className={`text-muted font-size-sm font-weight-bold`}>{course.midtermGrade}</span>
+                    <span className={`text-muted font-size-sm font-weight-bold`}>{course.visaNote}</span>
                   </td>
                   <td>
-                    <span className={`text-muted font-size-sm font-weight-bold`}>{course.finalGrade}</span>
+                    <span className={`text-muted font-size-sm font-weight-bold`}>{course.finalNote}</span>
                   </td>
                 </tr>
               ))}
