@@ -1,4 +1,3 @@
-// Yeni oluşturulan component: CourseProgressTable.js
 
 import React from 'react';
 const CourseProgressTable = ({ data }) => {
@@ -51,7 +50,7 @@ const CourseProgressTable = ({ data }) => {
                     </div>
                   </td>
                   <td>
-                    <span className={`text-muted font-size-sm font-weight-bold`}>{course.visaNote}</span>
+                    <span className={`text-muted font-size-sm font-weight-bold`}>{course.midtermNote}</span>
                   </td>
                   <td>
                     <span className={`text-muted font-size-sm font-weight-bold`}>{course.finalNote}</span>

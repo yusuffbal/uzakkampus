@@ -2,18 +2,17 @@ import React from 'react';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaHome, FaBook, FaGraduationCap, FaEdit, FaUserCircle, FaCog, FaPowerOff, FaUser } from 'react-icons/fa';
-import { useDispatch } from 'react-redux'; // Yeni eklenen import
+import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/auth/authSlice';
 
 const Menu = () => {
-  const dispatch = useDispatch(); // Yeni eklenen dispatch
+  const dispatch = useDispatch(); 
   const customFontStyle = {
     fontFamily: 'Arial, sans-serif',
   };
 
   const handleLogout = () => {
-    dispatch(logout()); // Redux'taki logout eylemini tetikle
-    // Buraya kullanıcıyı çıkış yaptığına dair bir bildirim de ekleyebilirsiniz.
+    dispatch(logout()); 
   };
 
   return (
@@ -39,7 +38,7 @@ const Menu = () => {
               <NavDropdown.Item href="/forums" style={customFontStyle}>
                 <FaUserCircle className="mr-2" /> Forumlar
               </NavDropdown.Item>
-              <NavDropdown.Item href="/yonetim-paneli" style={customFontStyle}>
+              <NavDropdown.Item href="/management-panel" style={customFontStyle}>
                 <FaCog className="mr-2" /> Yönetim Paneli
               </NavDropdown.Item>
             </NavDropdown>

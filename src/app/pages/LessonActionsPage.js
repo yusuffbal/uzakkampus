@@ -1,13 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Card, Tabs, Tab, ListGroup, Button, Modal } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as courseActions from "../redux/course/courseActions";
+import jsPDF from 'jspdf';
+import { saveAs } from 'file-saver';
+
 
 const LessonActionsPage = () => {
-  const { lessonId } = useParams();
+  const { courseId } = useParams();
   const [show, setShow] = useState(false);
   const [videoUrl, setVideoUrl] = useState('');
   const [videoTitle, setVideoTitle] = useState('');
+  const dispatch = useDispatch();
+
+  const { course } = useSelector(
+    state => ({
+      course: state.course.courseDetails,
+    }),
+    shallowEqual
+  );
+
+  useEffect(() => {
+    if (courseId) {
+      dispatch(courseActions.CourseById(courseId));
+    }
+  }, [courseId]);
 
   const handleClose = () => setShow(false);
   const handleShow = (url, title) => {
@@ -15,6 +34,25 @@ const LessonActionsPage = () => {
     setVideoTitle(title);
     setShow(true);
   };
+
+  const downloadPdfFromBase64 = (base64Data, fileName) => {
+    // Base64 verisini decod eder
+    const byteCharacters = atob(base64Data);
+
+    // Uint8Array türünde bir dizi oluşturur
+    const byteArray = new Uint8Array(byteCharacters.length);
+
+    // Her karakteri diziye ekler
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteArray[i] = byteCharacters.charCodeAt(i);
+    }
+
+    // Blob oluşturur
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+    // Dosyayı indirir
+    saveAs(blob, fileName);
+};
 
   return (
     <Container className="mt-5">
@@ -25,72 +63,59 @@ const LessonActionsPage = () => {
               <h4>Ders İçeriği</h4>
               <p>Ders içeriği ile ilgili bilgiler burada olacak.</p>
               <ListGroup>
-                <ListGroup.Item>Giriş ve Tanıtım</ListGroup.Item>
-                <ListGroup.Item>Konu 1: Temel Kavramlar</ListGroup.Item>
-                <ListGroup.Item>Konu 2: İleri Seviye Teknikler</ListGroup.Item>
-                <ListGroup.Item>Konu 3: Uygulamalı Örnekler</ListGroup.Item>
+                {/* Ders içeriği listesi buraya gelecek */}
               </ListGroup>
             </Tab>
             <Tab eventKey="documents" title="Doküman">
               <h4>Dokümanlar</h4>
               <ListGroup>
-                <ListGroup.Item>
-                  <a href="#">Ders Notları - Bölüm 1</a>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <a href="#">Ders Notları - Bölüm 2</a>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <a href="#">Ders Notları - Bölüm 3</a>
-                </ListGroup.Item>
+                {course && course.courseDocument && course.courseDocument.map((document, index) => (
+                  <ListGroup.Item key={index}>
+                    <Button variant="link" onClick={() => downloadPdfFromBase64(document.document, document.name)}>{document.name}</Button>
+                  </ListGroup.Item>
+                ))}
               </ListGroup>
             </Tab>
             <Tab eventKey="video" title="Video">
               <h4>Videolar</h4>
               <ListGroup>
-                <ListGroup.Item>
-                  <Button variant="link" onClick={() => handleShow('https://www.izlesene.com/video/irem-derici-milyonda-bir/10833184', 'Video 1 Title')}>Video 1</Button>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Button variant="link" onClick={() => handleShow('https://www.youtube.com/watch?v=fkdwfwR_qrI', 'Video 2 Title')}>Video 2</Button>
-                </ListGroup.Item>
+                {course && course.courseVideo && course.courseVideo.map((video, index) => (
+                  <ListGroup.Item key={index}>
+                    <Button variant="link" onClick={() => handleShow(video.video, video.name)}>{video.name}</Button>
+                  </ListGroup.Item>
+                ))}
               </ListGroup>
             </Tab>
             <Tab eventKey="homework" title="Ödev">
               <h4>Ödevler</h4>
               <ListGroup>
-                <ListGroup.Item>
-                  Ödev 1: Proje Ödevi
-                  <Button variant="primary" className="float-end">Gönder</Button>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Ödev 2: Araştırma Ödevi
-                  <Button variant="primary" className="float-end">Gönder</Button>
-                </ListGroup.Item>
+                {course && course.courseAssigment && course.courseAssigment.map((assignment, index) => (
+                  <ListGroup.Item key={index}>
+                    {assignment.title}
+                    <Button variant="primary" className="float-end">Gönder</Button>
+                  </ListGroup.Item>
+                ))}
               </ListGroup>
             </Tab>
             <Tab eventKey="quiz" title="Quiz">
               <h4>Quizler</h4>
               <ListGroup>
-                <ListGroup.Item>
-                  Quiz 1: Temel Bilgiler
-                  <Button variant="primary" className="float-end">Başlat</Button>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Quiz 2: İleri Seviye
-                  <Button variant="primary" className="float-end">Başlat</Button>
-                </ListGroup.Item>
+                {course && course.courseQuiz && course.courseQuiz.map((quiz, index) => (
+                  <ListGroup.Item key={index}>
+                    {quiz.name}
+                    <Button variant="primary" className="float-end">Başlat</Button>
+                  </ListGroup.Item>
+                ))}
               </ListGroup>
             </Tab>
             <Tab eventKey="exam" title="Sınav">
               <h4>Sınavlar</h4>
               <ListGroup>
-                <ListGroup.Item>
-                  Ara Sınav
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Final Sınavı
-                </ListGroup.Item>
+                {course && course.courseExams && course.courseExams.map((exam, index) => (
+                  <ListGroup.Item key={index}>
+                    {exam.name}
+                  </ListGroup.Item>
+                ))}
               </ListGroup>
             </Tab>
           </Tabs>
@@ -101,8 +126,8 @@ const LessonActionsPage = () => {
         <Modal.Header closeButton>
           <Modal.Title>{videoTitle}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <ReactPlayer url={videoUrl} controls width="100%" />
+        <Modal.Body>  
+          <ReactPlayer url={videoUrl} controls width="100%" height="100%" />
         </Modal.Body>
       </Modal>
     </Container>

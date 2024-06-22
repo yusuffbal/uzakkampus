@@ -5,6 +5,8 @@ import storage from 'redux-persist/lib/storage';
 import authReducer from '../redux/auth/authSlice';
 import { statusSlice } from './status/statusSlice';
 import { dashboardSlice } from './dashboard/dashboardSlice';
+import { courseSlice } from './course/courseSlice';
+import { forumSlice } from './forum/forumSlice';
 
 const persistConfig = {
   key: 'root',
@@ -18,6 +20,9 @@ const store = configureStore({
     status: statusSlice.reducer,
     auth: persistedReducer,
     dashboard: dashboardSlice.reducer,
+    course: courseSlice.reducer,
+    forum: forumSlice.reducer
+
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

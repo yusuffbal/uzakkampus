@@ -38,3 +38,31 @@ export const getCurrentUser = values => (dispatch, getState) => {
           dispatch(statusSlice.actions.errorCreated({ error }));
       });
 };
+
+export const getTeacherList = values => (dispatch) => {
+  dispatch(statusSlice.actions.startCall({callType: callTypes.list}));
+    return requestFromServer
+      .GetTeacher() 
+      .then(response => {
+          const teacherList = response.data.data;
+          dispatch(actions.teacherListFetched({ teacherList }));
+          dispatch(statusSlice.actions.endCall({callType: callTypes.list, message: ''}));
+      })
+      .catch(error => {
+          dispatch(statusSlice.actions.errorCreated({ error }));
+      });
+};
+
+export const getStudentList = values => (dispatch) => {
+    dispatch(statusSlice.actions.startCall({callType: callTypes.list}));
+      return requestFromServer
+        .GetAllStudent() 
+        .then(response => {
+            const studentList = response.data.data;
+            dispatch(actions.studentListFetched({ studentList }));
+            dispatch(statusSlice.actions.endCall({callType: callTypes.list, message: ''}));
+        })
+        .catch(error => {
+            dispatch(statusSlice.actions.errorCreated({ error }));
+        });
+  };

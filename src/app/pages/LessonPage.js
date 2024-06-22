@@ -1,67 +1,53 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Card, Modal, Button, Form } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom'; // useHistory import edildi
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Card, Modal, Button } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import CardComponent from '../components/lessonspage/CardComponent';
-
-// Örnek ders verileri
-const lessons = [
-  { id: 1, name: 'Ders 1', description: 'Ders 1 Açıklaması' },
-  { id: 2, name: 'Ders 2', description: 'Ders 2 Açıklaması' },
-  { id: 3, name: 'Ders 3', description: 'Ders 3 Açıklaması' },
-  { id: 4, name: 'Ders 4', description: 'Ders 4 Açıklaması' },
-  { id: 5, name: 'Ders 5', description: 'Ders 5 Açıklaması' },
-];
+import * as courseActions from "../redux/course/courseActions";
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 const LessonPage = () => {
   const [showModal, setShowModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredLessons, setFilteredLessons] = useState(lessons);
-  const history = useHistory(); // useHistory kullanımı
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const handleDetail = () => {
+  const { currentUser, course } = useSelector(
+    state => ({
+      currentUser: state.auth.currentUser,
+      course: state.course.entities,
+    }),
+    shallowEqual
+  );
+
+  useEffect(() => {
+    if (currentUser && currentUser.id) {
+      dispatch(courseActions.CourseByUserIdFetch(currentUser.id));
+    }
+  }, [currentUser]);
+
+  const handleDetail = (course) => {
+    setSelectedCourse(course);
     setShowModal(true);
-    // Dersin detaylarını yükleme işlemleri buraya eklenebilir
   };
 
   const handleCloseModal = () => setShowModal(false);
 
-  const handleAction = (lessonId) => {
-    history.push(`/courses/${lessonId}/actions`);
-  };
-
-  const handleSearch = () => {
-    setFilteredLessons(lessons.filter(lesson => 
-      lesson.name.toLowerCase().includes(searchTerm.toLowerCase())
-    ));
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+  const handleAction = (courseId) => {
+    history.push(`/courses/${courseId}/actions`);
   };
 
   return (
     <Container>
       <Card className="mt-4 bg-white p-3">
         <Card.Body>
-          <Form className="d-flex mb-3">
-            <Form.Control
-              type="text"
-              placeholder="Ders arayın..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-            <Button variant="primary" onClick={handleSearch} className="ms-2">
-              Ara
-            </Button>
-          </Form>
           <Row xs={1} sm={2} md={3}>
-            {filteredLessons.map((lesson) => (
-              <Col key={lesson.id}>
+            {course && Array.isArray(course) && course.map((singleCourse) => (
+              <Col key={singleCourse.id}>
                 <CardComponent
-                  lessonName={lesson.name}
-                  description={lesson.description}
-                  onDetail={handleDetail}
-                  onAction={() => handleAction(lesson.id)} // lessonId ile handleAction fonksiyonu çağrıldı
+                  lessonName={singleCourse.courseName}
+                  description={singleCourse.courseTitle}
+                  onDetail={() => handleDetail(singleCourse)}
+                  onAction={() => handleAction(singleCourse.id)}
                 />
               </Col>
             ))}
@@ -69,13 +55,18 @@ const LessonPage = () => {
         </Card.Body>
       </Card>
 
-      {/* Detaylar Modal */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Ders Detayları</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Dersin genel bilgileri buraya gelebilir.
+          {selectedCourse && (
+            <div>
+              <p><strong>Ders Adı:</strong> {selectedCourse.courseName}</p>
+              <p><strong>Ders Başlığı:</strong> {selectedCourse.courseTitle}</p>
+              {/* Diğer bilgileri buraya ekleyebilirsiniz */}
+            </div>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>

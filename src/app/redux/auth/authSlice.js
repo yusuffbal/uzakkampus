@@ -5,6 +5,8 @@ const initialState = {
   isAuth: false,
   accessToken: null,
   currentUser: null,
+  teacherList: null,
+  studentList: null,
 };
 
 export const authSlice = createSlice({
@@ -13,6 +15,12 @@ export const authSlice = createSlice({
   reducers: {
     currentUserFetched(state, action) {
       state.currentUser = action.payload.currentUser;
+    },
+    teacherListFetched(state, action) {
+      state.teacherList = action.payload.teacherList;
+    },
+    studentListFetched(state, action) {
+      state.studentList = action.payload.studentList;
     },
     fetchToken(state, action) {
       const token = action.payload.accessToken;

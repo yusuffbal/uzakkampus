@@ -20,3 +20,11 @@ export function getCurrentUser(values, accessToken) {
 export function CreateToken(values) {
     return axios.post(`${apiUrl}/Login`, values);
 }
+
+export function GetTeacher() {
+  return axios.post(`${userUrl}/GetTeacher`);
+}
+
+export function GetAllStudent() {
+  return axios.post(`${userUrl}/GetAllStudent`);
+}
