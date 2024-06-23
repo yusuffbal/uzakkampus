@@ -68,7 +68,7 @@ const ManagementPanel = () => {
           </Link>
         </Col>
         <Col md={4}>
-          <Link to="/create-exam" className="text-decoration-none">
+          <Link to="/add-exam" className="text-decoration-none">
             <Card className="shadow mb-4 text-center panel-card">
               <Card.Body>
                 <FaClipboard size={50} className="mb-3" />

@@ -15,6 +15,9 @@ import AddStudentToCoursePage from './app/pages/AddStudentToCoursePage';
 import AddForumPage from './app/pages/AddForumPage';
 import AddAssigmentPage from './app/pages/AddAssigmentPage';
 import AddDocumentPage from './app/pages/AddDocumentPage';
+import AddVideoPage from './app/pages/AddVideoPage';
+import ExamDetailPage from './app/pages/ExamDetailPage';
+import AddExamPage from './app/pages/AddExamPage';
 
 const BasePage = () => {
   return (
@@ -35,6 +38,9 @@ const BasePage = () => {
         <Route exact path="/add-forum" component={AddForumPage} />
         <Route exact path="/add-assigment" component={AddAssigmentPage} />
         <Route exact path="/add-document" component={AddDocumentPage} />
+        <Route exact path="/add-video" component={AddVideoPage} />
+        <Route path="/exam/:examId" component={ExamDetailPage} />
+        <Route exact path="/add-exam" component={AddExamPage} />
         <Redirect to="/homepage" />
       </Switch>
     </Suspense>

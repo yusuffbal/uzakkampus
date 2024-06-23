@@ -12,7 +12,7 @@ function AddDocumentPage() {
     const initialValues = {
         name: '',
         courseId: 0,
-        document: '', // Base64 formatındaki dosya için alan
+        document: '',
     };
 
     const [fileName, setFileName] = useState('');
@@ -38,8 +38,8 @@ function AddDocumentPage() {
         const file = event.currentTarget.files[0];
         const reader = new FileReader();
         reader.onloadend = () => {
-            setFieldValue('document', reader.result); // Dosyayı Base64 formatında kaydet
-            setFileName(file.name); // Dosya adını ayarla
+            setFieldValue('document', reader.result); 
+            setFileName(file.name); 
         };
         if (file) {
             reader.readAsDataURL(file);

@@ -7,6 +7,7 @@ import { statusSlice } from './status/statusSlice';
 import { dashboardSlice } from './dashboard/dashboardSlice';
 import { courseSlice } from './course/courseSlice';
 import { forumSlice } from './forum/forumSlice';
+import { examSlice } from './exam/examSlice';
 
 const persistConfig = {
   key: 'root',
@@ -21,7 +22,9 @@ const store = configureStore({
     auth: persistedReducer,
     dashboard: dashboardSlice.reducer,
     course: courseSlice.reducer,
-    forum: forumSlice.reducer
+    forum: forumSlice.reducer,
+    exam: examSlice.reducer
+
 
   },
   middleware: (getDefaultMiddleware) =>

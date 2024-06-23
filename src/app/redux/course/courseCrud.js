@@ -36,3 +36,7 @@ export function CreateAssigment(assigment) {
 export function AddDocument(document) {
     return axios.post(`${apiUrl}AddDocument`, document);
 }
+
+export function AddVideo(video) {
+    return axios.post(`${apiUrl}AddVideo`, video);
+}

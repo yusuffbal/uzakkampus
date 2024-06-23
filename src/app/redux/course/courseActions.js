@@ -122,3 +122,17 @@ export const AddDocument = document => dispatch => {
           dispatch(statusSlice.actions.errorCreated({error}));
       });
 };
+
+export const AddVideo = video => dispatch => {
+
+  dispatch(statusSlice.actions.startCall({callType: callTypes.action}));
+  return requestFromServer
+      .AddVideo(video)
+      .then((response) => {
+          dispatch(statusSlice.actions.endCall({callType: callTypes.action, message: 'OK'}));
+      })
+      .catch(error => {
+
+          dispatch(statusSlice.actions.errorCreated({error}));
+      });
+};
