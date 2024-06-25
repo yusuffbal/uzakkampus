@@ -137,11 +137,12 @@ const ForumDetailPage = () => {
                                 <Form.Group className="mb-3" controlId="formBody">
                                     <Form.Label className="text-primary">İçerik</Form.Label>
                                     <Field
-                                        as="textarea"
                                         name="body"
                                         className="form-control"
                                         placeholder="İçerik girin"
                                         rows={3}
+                                        as="textarea"
+
                                     />
                                     <ErrorMessage name="body" component="div" className="text-danger" />
                                 </Form.Group>

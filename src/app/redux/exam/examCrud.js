@@ -6,7 +6,6 @@ export function GetUserExam(id) {
     return axios.post(`${apiUrl}GetUserExam?id=${id}`);
 }
 
-
 export function QuestionListByExamId(id) {
     return axios.post(`${apiUrl}QuestionListByExamId?id=${id}`);
 }
@@ -23,7 +22,9 @@ export function GetAllExam() {
     return axios.post(`${apiUrl}GetAllExam`);
 }
 
-
 export function AddExamQuestions(question) {
     return axios.post(`${apiUrl}AddExamQuestion`, question);
 }
+
+
+

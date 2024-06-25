@@ -126,7 +126,7 @@ const ExamDetail = () => {
         // Dispatch the action to send exam data to the backend
         const examEndTime = new Date();
         const exam = {
-            studentID: currentUser.id,
+            StudentId: currentUser.id,
             examId: parseInt(examId),
             point: score,
             status: 1, // Assuming 1 means completed
