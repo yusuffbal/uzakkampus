@@ -40,3 +40,11 @@ export function AddDocument(document) {
 export function AddVideo(video) {
     return axios.post(`${apiUrl}AddVideo`, video);
 }
+
+export const GetGrading = id => {
+    return axios.post(`${apiUrl}GetGrades?id=${id}`);
+};
+
+export function UploadAssigment(assigment) {
+    return axios.post(`${apiUrl}UploadAssigment`, assigment);
+}

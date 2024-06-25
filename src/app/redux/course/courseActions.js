@@ -136,3 +136,31 @@ export const AddVideo = video => dispatch => {
           dispatch(statusSlice.actions.errorCreated({error}));
       });
 };
+
+export const GetGradingFetch = id => (dispatch) => {
+  dispatch(statusSlice.actions.startCall({ callType: callTypes.list }));
+  return requestFromServer
+    .GetGrading(id)
+    .then(response => {
+      const entities = response.data.data;
+      dispatch(actions.GetGradingFetched({ entities }));
+      dispatch(statusSlice.actions.endCall({ callType: callTypes.list, message: '' }));
+    })
+    .catch(error => {
+      dispatch(statusSlice.actions.errorCreated({ error }));
+    });
+};
+
+export const UploadAssigment = assigment => dispatch => {
+
+  dispatch(statusSlice.actions.startCall({callType: callTypes.action}));
+  return requestFromServer
+      .UploadAssigment(assigment)
+      .then((response) => {
+          dispatch(statusSlice.actions.endCall({callType: callTypes.action, message: 'OK'}));
+      })
+      .catch(error => {
+
+          dispatch(statusSlice.actions.errorCreated({error}));
+      });
+};

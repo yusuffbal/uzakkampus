@@ -5,6 +5,8 @@ const initialState = {
   courseDetails: [],
   getNotStudentCourse: [],
   AllCourse: [],
+  Grading: [],
+
 };
 
 
@@ -24,7 +26,10 @@ export const courseSlice = createSlice({
       },
       AllCourseFetched(state, action) {
         state.AllCourse = action.payload.entities;
-      },     
+      }, 
+      GetGradingFetched(state, action) {
+        state.Grading = action.payload.entities;
+      },    
     },
   });
   

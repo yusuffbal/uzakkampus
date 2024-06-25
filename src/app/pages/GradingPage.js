@@ -1,25 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, Container, Row, Col } from 'react-bootstrap';
 import GradingTable from '../components/gradingpage/GradingTable';
 import CourseStats from '../components/gradingpage/CourseStats';
+import * as courseActions from "../redux/course/courseActions";
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 const GradingPage = () => {
-  const [notes, setNotes] = useState([
-    { id: 1, course: 'Math', midterm: 80, final: 90, makeup: 85, grade: 88 },
-    { id: 2, course: 'Science', midterm: 70, final: 85, makeup: 80, grade: 82 },
-    { id: 3, course: 'History', midterm: 75, final: 80, makeup: 78, grade: 79 },
-  ]);
+  const dispatch = useDispatch();
+
+  const { currentUser, grade } = useSelector(
+    state => ({
+      currentUser: state.auth.currentUser,
+      grade: state.course.Grading,
+    }),
+    shallowEqual
+  );
+
+  useEffect(() => {
+    if (currentUser && currentUser.id) {
+      dispatch(courseActions.GetGradingFetch(currentUser.id));
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    console.log("grade: ", grade);
+  }, [grade]);
 
   return (
     <Container className="mt-5">
       <Row>
         <Col lg={6} xl={12}>
           <Tabs defaultActiveKey="gradingTable" transition={false} id="grading-tabs" className="mb-3">
-            <Tab eventKey="gradingTable" title="Grading Table">
-              <GradingTable notes={notes} />
+            <Tab eventKey="gradingTable" title="Not Tablosu">
+              <GradingTable notes={grade} />
             </Tab>
-            <Tab eventKey="courseStats" title="Course Stats">
-              <CourseStats notes={notes} />
+            <Tab eventKey="courseStats" title="Ders İstatistikleri">
+              <CourseStats notes={grade} />
             </Tab>
           </Tabs>
         </Col>

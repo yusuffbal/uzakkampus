@@ -6,21 +6,21 @@ const GradingTable = ({ notes }) => {
     <table className="table table-bordered table-hover">
       <thead className="thead-dark">
         <tr>
-          <th>Course</th>
-          <th>Midterm</th>
+          <th>Ders</th>
+          <th>Vize</th>
           <th>Final</th>
-          <th>Makeup</th>
-          <th>Grade</th>
+          <th>Bütünleme</th>
+          <th>Not</th>
         </tr>
       </thead>
       <tbody>
         {notes.map(note => (
-          <tr key={note.id}>
-            <td>{note.course}</td>
-            <td>{note.midterm}</td>
-            <td>{note.final}</td>
-            <td>{note.makeup}</td>
-            <td>{note.grade}</td>
+          <tr key={note.course.id}>
+            <td>{note.course.name}</td>
+            <td>{note.midtermNote}</td>
+            <td>{note.finalNote}</td>
+            <td>{note.integrationNote}</td>
+            <td>{note.average}</td>
           </tr>
         ))}
       </tbody>
